@@ -44,7 +44,7 @@ export default function ChatPage() {
     ]);
 
     try {
-      const res = await fetch("http://localhost:8000/visualization/visualize", {
+      const res = await fetch("https://bayes-ai.onrender.com/visualization/visualize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
@@ -181,14 +181,25 @@ export default function ChatPage() {
           flex: 1;
           padding: 10px 14px;
           font-size: 1rem;
-          border: 1px solid #cbd5e1;
+          border: 1.5px solid #b0b8c1;
           border-radius: 8px;
           outline: none;
           background: #fff;
-          transition: border 0.2s;
+          color: #222;
+          transition: border 0.2s, box-shadow 0.2s;
+        }
+        .chat-input::placeholder {
+          color: #888;
+          opacity: 1;
         }
         .chat-input:focus {
           border-color: #3182ce;
+          box-shadow: 0 0 0 2px #c3dafc;
+        }
+        .chat-input:disabled {
+          background: #f1f5f9;
+          color: #a0aec0;
+          border-color: #e2e8f0;
         }
         .chat-send {
           padding: 0 20px;
