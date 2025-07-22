@@ -13,7 +13,7 @@ type ChatMessage = {
 
 type VisualizationResponse = {
   message: string;
-  data: any[];
+  data: unknown[];
   html_snippet: string;
   success: boolean;
   error?: string | null;
@@ -23,7 +23,6 @@ export default function ChatPage() {
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,7 +34,6 @@ export default function ChatPage() {
     e.preventDefault();
     if (!query.trim()) return;
     setLoading(true);
-    setError(null);
 
     // Add user message
     setChat((prev) => [
@@ -62,12 +60,12 @@ export default function ChatPage() {
         ...prev,
         { role: "assistant", text: cleanMsg, html_snippet: data.html_snippet }
       ]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setChat((prev) => [
         ...prev,
         { role: "assistant", text: "Sorry, there was an error processing your request." }
       ]);
-      setError(err.message || "Request failed.");
+      console.error("Request failed:", err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
       setQuery("");
